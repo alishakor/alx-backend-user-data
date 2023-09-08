@@ -15,15 +15,15 @@ def login():
     """
     email = request.form.get('email')
     if email is None:
-        return jsonify({ "error": "email missing" }), 400
+        return jsonify({"error": "email missing"}), 400
     password = request.form.get('password')
     if password is None:
-        return jsonify({ "error": "password missing" }), 400
+        return jsonify({"error": "password missing"}), 400
     user = User.search({'email': user_email})
     if not user:
-        return jsonify({ "error": "no user found for this email" }), 404
+        return jsonify({"error": "no user found for this email"}), 404
     if users[0].is_valid_password(password):
-        return jsonify({ "error": "wrong password" }), 401
+        return jsonify({"error": "wrong password"}), 401
     from api.v1.app import auth
     session_name = getenv("SESSION_NAME")
     response = jsonify(user[0].to_json())
@@ -32,3 +32,15 @@ def login():
     return response
 
 
+@app_views.route(
+        '/auth_session/logout',
+        methods=['DELETE'],
+        strict_slashes=False
+        )
+def delete_session():
+    """Deletes a session"""
+    from api.v1.app import auth
+    deleted_session = auth.destroy_session(request)
+    if deleted_session:
+        return jsonify({}), 200
+    abort(404)
