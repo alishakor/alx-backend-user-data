@@ -33,3 +33,16 @@ class SessionAuth(Auth):
         user_session_cookie = self.session_cookie(request)
         user_id = self.user_id_for_session_id(user_session_cookie)
         return User.get(user_id)
+
+    def destroy_session(self, request=None):
+        """Destroys the current session"""
+        if request is None:
+            return False
+        user_session_cookie = self.session_cookie(request)
+        if user_session_cookie is None:
+            return False
+        linked = self.user_id_for_session_id(user_session_cookie)
+        if not linked:
+            return False
+        self.user_id_by_session_id.pop(user_session_cookie)
+        return True
