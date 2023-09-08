@@ -6,10 +6,11 @@ from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
 from os import getenv
+from typing import Tuple
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def login():
+def login() -> Tuple[str, int]:
     """POST api/v1/views/session_auth.py
     Return: json representation of user object
     """
@@ -37,7 +38,7 @@ def login():
         methods=['DELETE'],
         strict_slashes=False
         )
-def delete_session():
+def delete_session() -> Tuple[str, int]:
     """Deletes a session"""
     from api.v1.app import auth
     deleted_session = auth.destroy_session(request)
