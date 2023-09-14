@@ -48,3 +48,14 @@ class DB:
         if not query:
             raise NoResultFound
         return query
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """update user based on its ID"""
+        updated_user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if hasattr(updated_user, key):
+                setattr(updated_user, key, value)
+            else:
+                raise valueError
+        self._session.commit()
+        return None
