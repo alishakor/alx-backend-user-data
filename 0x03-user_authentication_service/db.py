@@ -56,6 +56,6 @@ class DB:
             if hasattr(updated_user, key):
                 setattr(updated_user, key, value)
             else:
-                raise valueError
+                raise ValueError
         self._session.commit()
         return None
