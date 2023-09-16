@@ -3,7 +3,7 @@
 basic flask module
 """
 from flask import Flask, jsonify, abort, request
-from auth import Auth 
+from auth import Auth
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -13,15 +13,16 @@ AUTH = Auth()
 def index():
     """GET /
     Return:
-        - index route
+        -index route
     """
     return jsonify({"message": "Bienvenue"})
+
 
 @app.route('/users', methods=["POST"], strict_slashes=False)
 def register_user():
     """POST /users
-    Return: 
-        - Register user to database
+    Return:
+        -Register user to database
     """
     email = request.form.get("email")
     password = request.form.get("password")
