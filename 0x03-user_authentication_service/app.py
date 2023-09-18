@@ -72,7 +72,7 @@ def login():
         try:
             token = AUTH.get_reset_password_token(email)
             return jsonify(
-                {"email": f"{email}", "reset_token": f"{token}"}), 200
+                {"email": email, "reset_token": token}), 200
         except ValueError:
             abort(403)
 
@@ -85,7 +85,7 @@ def login():
         try:
             if reset_token:
                 AUTH.update_password(reset_token, new_password)
-                return jsonify({"email": f"{email}",
+                return jsonify({"email": email,
                                 "message": "Password updated"}), 200
         except ValueError:
             abort(403)
