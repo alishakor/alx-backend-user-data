@@ -53,7 +53,7 @@ def login():
         user = AUTH.get_user_from_session_id(session_id)
         if user is None:
             abort(403)
-        AUTH.destroy_session(user.id)
+        AUTH.destroy_session(user)
         return redirect("/")
 
     @app.route("/profile", methods=["GET"], strict_slashes=False)
@@ -63,7 +63,7 @@ def login():
         user = AUTH.get_user_from_session_id(session_id)
         if user is None:
             abort(403)
-        return jsonify({"email": user.email})
+        return jsonify({"email": user.email}), 200
 
     @app.route('/reset_password', methods=['POST'], strict_slashes=False)
     def get_reset_password_token():
